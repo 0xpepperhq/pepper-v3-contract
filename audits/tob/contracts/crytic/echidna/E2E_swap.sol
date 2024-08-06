@@ -4,21 +4,21 @@ pragma abicoder v2;
 import './Setup.sol';
 import '../../../../../contracts/test/TestERC20.sol';
 import '../../../../../contracts/libraries/TickMath.sol';
-import '../../../../../contracts/UniswapV3Pool.sol';
+import '../../../../../contracts/PepperV1Pool.sol';
 
 // import 'hardhat/console.sol';
 
 contract E2E_swap {
     SetupTokens tokens;
-    SetupUniswap uniswap;
+    SetupPepper pepper;
 
-    UniswapV3Pool pool;
+    PepperV1Pool pool;
 
     TestERC20 token0;
     TestERC20 token1;
 
-    UniswapMinter minter;
-    UniswapSwapper swapper;
+    PepperMinter minter;
+    PepperSwapper swapper;
 
     int24[] usedTicks;
     bool inited;
@@ -47,10 +47,10 @@ contract E2E_swap {
         token0 = tokens.token0();
         token1 = tokens.token1();
 
-        uniswap = new SetupUniswap(token0, token1);
+        pepper = new SetupPepper(token0, token1);
 
-        minter = new UniswapMinter(token0, token1);
-        swapper = new UniswapSwapper(token0, token1);
+        minter = new PepperMinter(token0, token1);
+        swapper = new PepperSwapper(token0, token1);
 
         tokens.mintTo(0, address(swapper), 1e9 ether);
         tokens.mintTo(1, address(swapper), 1e9 ether);
@@ -306,8 +306,8 @@ contract E2E_swap {
         //
         // deploy the pool
         //
-        uniswap.createPool(poolParams.fee, poolParams.startPrice);
-        pool = uniswap.pool();
+        pepper.createPool(poolParams.fee, poolParams.startPrice);
+        pool = pepper.pool();
 
         //
         // set the pool inside the minter and swapper contracts
@@ -360,7 +360,7 @@ contract E2E_swap {
         uint160 sqrtPriceLimitX96 = get_random_zeroForOne_priceLimit(_amount);
         // console.log('sqrtPriceLimitX96 = %s', sqrtPriceLimitX96);
 
-        (UniswapSwapper.SwapperStats memory bfre, UniswapSwapper.SwapperStats memory aftr) =
+        (PepperSwapper.SwapperStats memory bfre, PepperSwapper.SwapperStats memory aftr) =
             swapper.doSwap(true, _amountSpecified, sqrtPriceLimitX96);
 
         check_swap_invariants(
@@ -394,7 +394,7 @@ contract E2E_swap {
         uint160 sqrtPriceLimitX96 = get_random_oneForZero_priceLimit(_amount);
         // console.log('sqrtPriceLimitX96 = %s', sqrtPriceLimitX96);
 
-        (UniswapSwapper.SwapperStats memory bfre, UniswapSwapper.SwapperStats memory aftr) =
+        (PepperSwapper.SwapperStats memory bfre, PepperSwapper.SwapperStats memory aftr) =
             swapper.doSwap(false, _amountSpecified, sqrtPriceLimitX96);
 
         check_swap_invariants(
@@ -428,7 +428,7 @@ contract E2E_swap {
         uint160 sqrtPriceLimitX96 = get_random_zeroForOne_priceLimit(_amount);
         // console.log('sqrtPriceLimitX96 = %s', sqrtPriceLimitX96);
 
-        (UniswapSwapper.SwapperStats memory bfre, UniswapSwapper.SwapperStats memory aftr) =
+        (PepperSwapper.SwapperStats memory bfre, PepperSwapper.SwapperStats memory aftr) =
             swapper.doSwap(true, _amountSpecified, sqrtPriceLimitX96);
 
         check_swap_invariants(
@@ -462,7 +462,7 @@ contract E2E_swap {
         uint160 sqrtPriceLimitX96 = get_random_oneForZero_priceLimit(_amount);
         // console.log('sqrtPriceLimitX96 = %s', sqrtPriceLimitX96);
 
-        (UniswapSwapper.SwapperStats memory bfre, UniswapSwapper.SwapperStats memory aftr) =
+        (PepperSwapper.SwapperStats memory bfre, PepperSwapper.SwapperStats memory aftr) =
             swapper.doSwap(false, _amountSpecified, sqrtPriceLimitX96);
 
         check_swap_invariants(
