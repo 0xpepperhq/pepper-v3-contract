@@ -1,22 +1,22 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity =0.7.6;
 
-import './interfaces/IPepperV1Factory.sol';
+import './interfaces/IPepperV3Factory.sol';
 
-import './PepperV1PoolDeployer.sol';
+import './PepperV3PoolDeployer.sol';
 import './NoDelegateCall.sol';
 
-import './PepperV1Pool.sol';
+import './PepperV3Pool.sol';
 
 /// @title Canonical Pepper V1 factory
 /// @notice Deploys Pepper V1 pools and manages ownership and control over pool protocol fees
-contract PepperV1Factory is IPepperV1Factory, PepperV1PoolDeployer, NoDelegateCall {
-    /// @inheritdoc IPepperV1Factory
+contract PepperV3Factory is IPepperV3Factory, PepperV3PoolDeployer, NoDelegateCall {
+    /// @inheritdoc IPepperV3Factory
     address public override owner;
 
-    /// @inheritdoc IPepperV1Factory
+    /// @inheritdoc IPepperV3Factory
     mapping(uint24 => int24) public override feeAmountTickSpacing;
-    /// @inheritdoc IPepperV1Factory
+    /// @inheritdoc IPepperV3Factory
     mapping(address => mapping(address => mapping(uint24 => address))) public override getPool;
 
     constructor() {
@@ -31,7 +31,7 @@ contract PepperV1Factory is IPepperV1Factory, PepperV1PoolDeployer, NoDelegateCa
         emit FeeAmountEnabled(10000, 200);
     }
 
-    /// @inheritdoc IPepperV1Factory
+    /// @inheritdoc IPepperV3Factory
     function createPool(
         address tokenA,
         address tokenB,
@@ -50,14 +50,14 @@ contract PepperV1Factory is IPepperV1Factory, PepperV1PoolDeployer, NoDelegateCa
         emit PoolCreated(token0, token1, fee, tickSpacing, pool);
     }
 
-    /// @inheritdoc IPepperV1Factory
+    /// @inheritdoc IPepperV3Factory
     function setOwner(address _owner) external override {
         require(msg.sender == owner);
         emit OwnerChanged(owner, _owner);
         owner = _owner;
     }
 
-    /// @inheritdoc IPepperV1Factory
+    /// @inheritdoc IPepperV3Factory
     function enableFeeAmount(uint24 fee, int24 tickSpacing) public override {
         require(msg.sender == owner);
         require(fee < 1000000);

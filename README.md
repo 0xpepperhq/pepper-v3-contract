@@ -19,14 +19,14 @@ This repository is subject to the Pepper V1 bug bounty program, per the terms de
 In order to deploy this code to a local testnet, you should install the npm package
 `@pepper/v3-core`
 and import the factory bytecode located at
-`@pepper/v3-core/artifacts/contracts/PepperV1Factory.sol/PepperV1Factory.json`.
+`@pepper/v3-core/artifacts/contracts/PepperV3Factory.sol/PepperV3Factory.json`.
 For example:
 
 ```typescript
 import {
   abi as FACTORY_ABI,
   bytecode as FACTORY_BYTECODE,
-} from '@pepper/v3-core/artifacts/contracts/PepperV1Factory.sol/PepperV1Factory.json'
+} from '@pepper/v3-core/artifacts/contracts/PepperV3Factory.sol/PepperV3Factory.json'
 
 // deploy the bytecode
 ```
@@ -41,10 +41,10 @@ The Pepper v3 interfaces are available for import into solidity smart contracts
 via the npm artifact `@pepper/v3-core`, e.g.:
 
 ```solidity
-import '@pepper/v3-core/contracts/interfaces/IPepperV1Pool.sol';
+import '@pepper/v3-core/contracts/interfaces/IPepperV3Pool.sol';
 
 contract MyContract {
-  IPepperV1Pool pool;
+  IPepperV3Pool pool;
 
   function doSomethingWithPool() {
     // pool.swap(...);

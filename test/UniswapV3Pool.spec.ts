@@ -1,9 +1,9 @@
 import { ethers, waffle } from 'hardhat'
 import { BigNumber, BigNumberish, constants, Wallet } from 'ethers'
 import { TestERC20 } from '../typechain/TestERC20'
-import { PepperV1Factory } from '../typechain/PepperV1Factory'
-import { MockTimePepperV1Pool } from '../typechain/MockTimePepperV1Pool'
-import { TestPepperV1SwapPay } from '../typechain/TestPepperV1SwapPay'
+import { PepperV3Factory } from '../typechain/PepperV3Factory'
+import { MockTimePepperV3Pool } from '../typechain/MockTimePepperV3Pool'
+import { TestPepperV3SwapPay } from '../typechain/TestPepperV3SwapPay'
 import checkObservationEquals from './shared/checkObservationEquals'
 import { expect } from './shared/expect'
 
@@ -27,8 +27,8 @@ import {
   MIN_SQRT_RATIO,
   SwapToPriceFunction,
 } from './shared/utilities'
-import { TestPepperV1Callee } from '../typechain/TestPepperV1Callee'
-import { TestPepperV1ReentrantCallee } from '../typechain/TestPepperV1ReentrantCallee'
+import { TestPepperV3Callee } from '../typechain/TestPepperV3Callee'
+import { TestPepperV3ReentrantCallee } from '../typechain/TestPepperV3ReentrantCallee'
 import { TickMathTest } from '../typechain/TickMathTest'
 import { SwapMathTest } from '../typechain/SwapMathTest'
 
@@ -36,17 +36,17 @@ const createFixtureLoader = waffle.createFixtureLoader
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
 
-describe('PepperV1Pool', () => {
+describe('PepperV3Pool', () => {
   let wallet: Wallet, other: Wallet
 
   let token0: TestERC20
   let token1: TestERC20
   let token2: TestERC20
 
-  let factory: PepperV1Factory
-  let pool: MockTimePepperV1Pool
+  let factory: PepperV3Factory
+  let pool: MockTimePepperV3Pool
 
-  let swapTarget: TestPepperV1Callee
+  let swapTarget: TestPepperV3Callee
 
   let swapToLowerPrice: SwapToPriceFunction
   let swapToHigherPrice: SwapToPriceFunction
@@ -623,7 +623,7 @@ describe('PepperV1Pool', () => {
 
   // the combined amount of liquidity that the pool is initialized with (including the 1 minimum liquidity that is burned)
   const initializeLiquidityAmount = expandTo18Decimals(2)
-  async function initializeAtZeroTick(pool: MockTimePepperV1Pool): Promise<void> {
+  async function initializeAtZeroTick(pool: MockTimePepperV3Pool): Promise<void> {
     await pool.initialize(encodePriceSqrt(1, 1))
     const tickSpacing = await pool.tickSpacing()
     const [min, max] = [getMinTick(tickSpacing), getMaxTick(tickSpacing)]
@@ -1685,8 +1685,8 @@ describe('PepperV1Pool', () => {
 
     it('cannot reenter from swap callback', async () => {
       const reentrant = (await (
-        await ethers.getContractFactory('TestPepperV1ReentrantCallee')
-      ).deploy()) as TestPepperV1ReentrantCallee
+        await ethers.getContractFactory('TestPepperV3ReentrantCallee')
+      ).deploy()) as TestPepperV3ReentrantCallee
 
       // the tests happen in solidity
       await expect(reentrant.swapToReenter(pool.address)).to.be.revertedWith('Unable to reenter')
@@ -1969,10 +1969,10 @@ describe('PepperV1Pool', () => {
   })
 
   describe('swap underpayment tests', () => {
-    let underpay: TestPepperV1SwapPay
+    let underpay: TestPepperV3SwapPay
     beforeEach('deploy swap test', async () => {
-      const underpayFactory = await ethers.getContractFactory('TestPepperV1SwapPay')
-      underpay = (await underpayFactory.deploy()) as TestPepperV1SwapPay
+      const underpayFactory = await ethers.getContractFactory('TestPepperV3SwapPay')
+      underpay = (await underpayFactory.deploy()) as TestPepperV3SwapPay
       await token0.approve(underpay.address, constants.MaxUint256)
       await token1.approve(underpay.address, constants.MaxUint256)
       await pool.initialize(encodePriceSqrt(1, 1))

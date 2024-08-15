@@ -2,8 +2,8 @@ pragma solidity =0.7.6;
 pragma abicoder v2;
 
 import '../../../../../contracts/test/TestERC20.sol';
-import '../../../../../contracts/PepperV1Pool.sol';
-import '../../../../../contracts/PepperV1Factory.sol';
+import '../../../../../contracts/PepperV3Pool.sol';
+import '../../../../../contracts/PepperV3Factory.sol';
 
 contract SetupToken {
     TestERC20 public token;
@@ -54,7 +54,7 @@ contract SetupTokens {
 }
 
 contract SetupPepper {
-    PepperV1Pool public pool;
+    PepperV3Pool public pool;
     TestERC20 token0;
     TestERC20 token1;
 
@@ -62,22 +62,22 @@ contract SetupPepper {
     // fee 500   + tickSpacing 10
     // fee 3000  + tickSpacing 60
     // fee 10000 + tickSpacing 200
-    PepperV1Factory factory;
+    PepperV3Factory factory;
 
     constructor(TestERC20 _token0, TestERC20 _token1) public {
-        factory = new PepperV1Factory();
+        factory = new PepperV3Factory();
         token0 = _token0;
         token1 = _token1;
     }
 
     function createPool(uint24 _fee, uint160 _startPrice) public {
-        pool = PepperV1Pool(factory.createPool(address(token0), address(token1), _fee));
+        pool = PepperV3Pool(factory.createPool(address(token0), address(token1), _fee));
         pool.initialize(_startPrice);
     }
 }
 
 contract PepperMinter {
-    PepperV1Pool pool;
+    PepperV3Pool pool;
     TestERC20 token0;
     TestERC20 token1;
 
@@ -94,11 +94,11 @@ contract PepperMinter {
         token1 = _token1;
     }
 
-    function setPool(PepperV1Pool _pool) public {
+    function setPool(PepperV3Pool _pool) public {
         pool = _pool;
     }
 
-    function pepperV1MintCallback(
+    function PepperV3MintCallback(
         uint256 amount0Owed,
         uint256 amount1Owed,
         bytes calldata data
@@ -149,7 +149,7 @@ contract PepperMinter {
 }
 
 contract PepperSwapper {
-    PepperV1Pool pool;
+    PepperV3Pool pool;
     TestERC20 token0;
     TestERC20 token1;
 
@@ -167,11 +167,11 @@ contract PepperSwapper {
         token1 = _token1;
     }
 
-    function setPool(PepperV1Pool _pool) public {
+    function setPool(PepperV3Pool _pool) public {
         pool = _pool;
     }
 
-    function pepperV1SwapCallback(
+    function PepperV3SwapCallback(
         int256 amount0Delta,
         int256 amount1Delta,
         bytes calldata data

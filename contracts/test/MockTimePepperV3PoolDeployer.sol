@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity =0.7.6;
 
-import '../interfaces/IPepperV1PoolDeployer.sol';
+import '../interfaces/IPepperV3PoolDeployer.sol';
 
-import './MockTimePepperV1Pool.sol';
+import './MockTimePepperV3Pool.sol';
 
-contract MockTimePepperV1PoolDeployer is IPepperV1PoolDeployer {
+contract MockTimePepperV3PoolDeployer is IPepperV3PoolDeployer {
     struct Parameters {
         address factory;
         address token0;
@@ -27,7 +27,7 @@ contract MockTimePepperV1PoolDeployer is IPepperV1PoolDeployer {
     ) external returns (address pool) {
         parameters = Parameters({factory: factory, token0: token0, token1: token1, fee: fee, tickSpacing: tickSpacing});
         pool = address(
-            new MockTimePepperV1Pool{salt: keccak256(abi.encodePacked(token0, token1, fee, tickSpacing))}()
+            new MockTimePepperV3Pool{salt: keccak256(abi.encodePacked(token0, token1, fee, tickSpacing))}()
         );
         emit PoolDeployed(pool);
         delete parameters;

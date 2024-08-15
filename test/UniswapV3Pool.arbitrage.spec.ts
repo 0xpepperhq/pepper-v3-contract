@@ -1,9 +1,9 @@
 import Decimal from 'decimal.js'
 import { BigNumber, BigNumberish, Wallet } from 'ethers'
 import { ethers, waffle } from 'hardhat'
-import { MockTimePepperV1Pool } from '../typechain/MockTimePepperV1Pool'
+import { MockTimePepperV3Pool } from '../typechain/MockTimePepperV3Pool'
 import { TickMathTest } from '../typechain/TickMathTest'
-import { PepperV1PoolSwapTest } from '../typechain/PepperV1PoolSwapTest'
+import { PepperV3PoolSwapTest } from '../typechain/PepperV3PoolSwapTest'
 import { expect } from './shared/expect'
 
 import { poolFixture } from './shared/fixtures'
@@ -48,7 +48,7 @@ function applySqrtRatioBipsHundredthsDelta(sqrtRatio: BigNumber, bipsHundredths:
   )
 }
 
-describe('PepperV1Pool arbitrage tests', () => {
+describe('PepperV3Pool arbitrage tests', () => {
   let wallet: Wallet, arbitrageur: Wallet
 
   let loadFixture: ReturnType<typeof createFixtureLoader>
@@ -95,8 +95,8 @@ describe('PepperV1Pool arbitrage tests', () => {
               pool,
             })
 
-            const testerFactory = await ethers.getContractFactory('PepperV1PoolSwapTest')
-            const tester = (await testerFactory.deploy()) as PepperV1PoolSwapTest
+            const testerFactory = await ethers.getContractFactory('PepperV3PoolSwapTest')
+            const tester = (await testerFactory.deploy()) as PepperV3PoolSwapTest
 
             const tickMathFactory = await ethers.getContractFactory('TickMathTest')
             const tickMath = (await tickMathFactory.deploy()) as TickMathTest
@@ -118,9 +118,9 @@ describe('PepperV1Pool arbitrage tests', () => {
           let swapToHigherPrice: SwapFunction
           let swapToLowerPrice: SwapFunction
           let swapExact1For0: SwapFunction
-          let pool: MockTimePepperV1Pool
+          let pool: MockTimePepperV3Pool
           let mint: MintFunction
-          let tester: PepperV1PoolSwapTest
+          let tester: PepperV3PoolSwapTest
           let tickMath: TickMathTest
 
           beforeEach('load the fixture', async () => {

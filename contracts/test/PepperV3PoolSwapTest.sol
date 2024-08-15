@@ -3,10 +3,10 @@ pragma solidity =0.7.6;
 
 import '../interfaces/IERC20Minimal.sol';
 
-import '../interfaces/callback/IPepperV1SwapCallback.sol';
-import '../interfaces/IPepperV1Pool.sol';
+import '../interfaces/callback/IPepperV3SwapCallback.sol';
+import '../interfaces/IPepperV3Pool.sol';
 
-contract PepperV1PoolSwapTest is IPepperV1SwapCallback {
+contract PepperV3PoolSwapTest is IPepperV3SwapCallback {
     int256 private _amount0Delta;
     int256 private _amount1Delta;
 
@@ -23,7 +23,7 @@ contract PepperV1PoolSwapTest is IPepperV1SwapCallback {
             uint160 nextSqrtRatio
         )
     {
-        (amount0Delta, amount1Delta) = IPepperV1Pool(pool).swap(
+        (amount0Delta, amount1Delta) = IPepperV3Pool(pool).swap(
             address(0),
             zeroForOne,
             amountSpecified,
@@ -31,10 +31,10 @@ contract PepperV1PoolSwapTest is IPepperV1SwapCallback {
             abi.encode(msg.sender)
         );
 
-        (nextSqrtRatio, , , , , , ) = IPepperV1Pool(pool).slot0();
+        (nextSqrtRatio, , , , , , ) = IPepperV3Pool(pool).slot0();
     }
 
-    function pepperV1SwapCallback(
+    function PepperV3SwapCallback(
         int256 amount0Delta,
         int256 amount1Delta,
         bytes calldata data
@@ -42,9 +42,9 @@ contract PepperV1PoolSwapTest is IPepperV1SwapCallback {
         address sender = abi.decode(data, (address));
 
         if (amount0Delta > 0) {
-            IERC20Minimal(IPepperV1Pool(msg.sender).token0()).transferFrom(sender, msg.sender, uint256(amount0Delta));
+            IERC20Minimal(IPepperV3Pool(msg.sender).token0()).transferFrom(sender, msg.sender, uint256(amount0Delta));
         } else if (amount1Delta > 0) {
-            IERC20Minimal(IPepperV1Pool(msg.sender).token1()).transferFrom(sender, msg.sender, uint256(amount1Delta));
+            IERC20Minimal(IPepperV3Pool(msg.sender).token1()).transferFrom(sender, msg.sender, uint256(amount1Delta));
         }
     }
 }

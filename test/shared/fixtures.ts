@@ -1,21 +1,21 @@
 import { BigNumber } from 'ethers'
 import { ethers } from 'hardhat'
-import { MockTimePepperV1Pool } from '../../typechain/MockTimePepperV1Pool'
+import { MockTimePepperV3Pool } from '../../typechain/MockTimePepperV3Pool'
 import { TestERC20 } from '../../typechain/TestERC20'
-import { PepperV1Factory } from '../../typechain/PepperV1Factory'
-import { TestPepperV1Callee } from '../../typechain/TestPepperV1Callee'
-import { TestPepperV1Router } from '../../typechain/TestPepperV1Router'
-import { MockTimePepperV1PoolDeployer } from '../../typechain/MockTimePepperV1PoolDeployer'
+import { PepperV3Factory } from '../../typechain/PepperV3Factory'
+import { TestPepperV3Callee } from '../../typechain/TestPepperV3Callee'
+import { TestPepperV3Router } from '../../typechain/TestPepperV3Router'
+import { MockTimePepperV3PoolDeployer } from '../../typechain/MockTimePepperV3PoolDeployer'
 
 import { Fixture } from 'ethereum-waffle'
 
 interface FactoryFixture {
-  factory: PepperV1Factory
+  factory: PepperV3Factory
 }
 
 async function factoryFixture(): Promise<FactoryFixture> {
-  const factoryFactory = await ethers.getContractFactory('PepperV1Factory')
-  const factory = (await factoryFactory.deploy()) as PepperV1Factory
+  const factoryFactory = await ethers.getContractFactory('PepperV3Factory')
+  const factory = (await factoryFactory.deploy()) as PepperV3Factory
   return { factory }
 }
 
@@ -41,14 +41,14 @@ async function tokensFixture(): Promise<TokensFixture> {
 type TokensAndFactoryFixture = FactoryFixture & TokensFixture
 
 interface PoolFixture extends TokensAndFactoryFixture {
-  swapTargetCallee: TestPepperV1Callee
-  swapTargetRouter: TestPepperV1Router
+  swapTargetCallee: TestPepperV3Callee
+  swapTargetRouter: TestPepperV3Router
   createPool(
     fee: number,
     tickSpacing: number,
     firstToken?: TestERC20,
     secondToken?: TestERC20
-  ): Promise<MockTimePepperV1Pool>
+  ): Promise<MockTimePepperV3Pool>
 }
 
 // Monday, October 5, 2020 9:00:00 AM GMT-05:00
@@ -58,14 +58,14 @@ export const poolFixture: Fixture<PoolFixture> = async function (): Promise<Pool
   const { factory } = await factoryFixture()
   const { token0, token1, token2 } = await tokensFixture()
 
-  const MockTimePepperV1PoolDeployerFactory = await ethers.getContractFactory('MockTimePepperV1PoolDeployer')
-  const MockTimePepperV1PoolFactory = await ethers.getContractFactory('MockTimePepperV1Pool')
+  const MockTimePepperV3PoolDeployerFactory = await ethers.getContractFactory('MockTimePepperV3PoolDeployer')
+  const MockTimePepperV3PoolFactory = await ethers.getContractFactory('MockTimePepperV3Pool')
 
-  const calleeContractFactory = await ethers.getContractFactory('TestPepperV1Callee')
-  const routerContractFactory = await ethers.getContractFactory('TestPepperV1Router')
+  const calleeContractFactory = await ethers.getContractFactory('TestPepperV3Callee')
+  const routerContractFactory = await ethers.getContractFactory('TestPepperV3Router')
 
-  const swapTargetCallee = (await calleeContractFactory.deploy()) as TestPepperV1Callee
-  const swapTargetRouter = (await routerContractFactory.deploy()) as TestPepperV1Router
+  const swapTargetCallee = (await calleeContractFactory.deploy()) as TestPepperV3Callee
+  const swapTargetRouter = (await routerContractFactory.deploy()) as TestPepperV3Router
 
   return {
     token0,
@@ -75,7 +75,7 @@ export const poolFixture: Fixture<PoolFixture> = async function (): Promise<Pool
     swapTargetCallee,
     swapTargetRouter,
     createPool: async (fee, tickSpacing, firstToken = token0, secondToken = token1) => {
-      const mockTimePoolDeployer = (await MockTimePepperV1PoolDeployerFactory.deploy()) as MockTimePepperV1PoolDeployer
+      const mockTimePoolDeployer = (await MockTimePepperV3PoolDeployerFactory.deploy()) as MockTimePepperV3PoolDeployer
       const tx = await mockTimePoolDeployer.deploy(
         factory.address,
         firstToken.address,
@@ -86,7 +86,7 @@ export const poolFixture: Fixture<PoolFixture> = async function (): Promise<Pool
 
       const receipt = await tx.wait()
       const poolAddress = receipt.events?.[0].args?.pool as string
-      return MockTimePepperV1PoolFactory.attach(poolAddress) as MockTimePepperV1Pool
+      return MockTimePepperV3PoolFactory.attach(poolAddress) as MockTimePepperV3Pool
     },
   }
 }

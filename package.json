@@ -19,8 +19,8 @@
   "files": [
     "contracts/interfaces",
     "contracts/libraries",
-    "artifacts/contracts/PepperV1Factory.sol/PepperV1Factory.json",
-    "artifacts/contracts/PepperV1Pool.sol/PepperV1Pool.json",
+    "artifacts/contracts/PepperV3Factory.sol/PepperV3Factory.json",
+    "artifacts/contracts/PepperV3Pool.sol/PepperV3Pool.json",
     "artifacts/contracts/interfaces/**/*.json",
     "!artifacts/contracts/interfaces/**/*.dbg.json"
   ],

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity =0.7.6;
 
-import './interfaces/IPepperV1PoolDeployer.sol';
+import './interfaces/IPepperV3PoolDeployer.sol';
 
-import './PepperV1Pool.sol';
+import './PepperV3Pool.sol';
 
-contract PepperV1PoolDeployer is IPepperV1PoolDeployer {
+contract PepperV3PoolDeployer is IPepperV3PoolDeployer {
     struct Parameters {
         address factory;
         address token0;
@@ -14,7 +14,7 @@ contract PepperV1PoolDeployer is IPepperV1PoolDeployer {
         int24 tickSpacing;
     }
 
-    /// @inheritdoc IPepperV1PoolDeployer
+    /// @inheritdoc IPepperV3PoolDeployer
     Parameters public override parameters;
 
     /// @dev Deploys a pool with the given parameters by transiently setting the parameters storage slot and then
@@ -32,7 +32,7 @@ contract PepperV1PoolDeployer is IPepperV1PoolDeployer {
         int24 tickSpacing
     ) internal returns (address pool) {
         parameters = Parameters({factory: factory, token0: token0, token1: token1, fee: fee, tickSpacing: tickSpacing});
-        pool = address(new PepperV1Pool{salt: keccak256(abi.encode(token0, token1, fee))}());
+        pool = address(new PepperV3Pool{salt: keccak256(abi.encode(token0, token1, fee))}());
         delete parameters;
     }
 }

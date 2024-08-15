@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity =0.7.6;
 
-import '../PepperV1Pool.sol';
+import '../PepperV3Pool.sol';
 
 // used for testing time dependent behavior
-contract MockTimePepperV1Pool is PepperV1Pool {
+contract MockTimePepperV3Pool is PepperV3Pool {
     // Monday, October 5, 2020 9:00:00 AM GMT-05:00
     uint256 public time = 1601906400;
 

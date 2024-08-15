@@ -3,7 +3,7 @@ pragma solidity >=0.5.0;
 
 /// @title The interface for the Pepper V1 Factory
 /// @notice The Pepper V1 Factory facilitates creation of Pepper V1 pools and control over the protocol fees
-interface IPepperV1Factory {
+interface IPepperV3Factory {
     /// @notice Emitted when the owner of the factory is changed
     /// @param oldOwner The owner before the owner was changed
     /// @param newOwner The owner after the owner was changed
