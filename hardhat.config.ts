@@ -1,15 +1,17 @@
-import 'hardhat-typechain'
-import '@nomiclabs/hardhat-ethers'
-import '@nomiclabs/hardhat-waffle'
-import '@nomiclabs/hardhat-etherscan'
+import type { HardhatUserConfig } from "hardhat/config";
+import "@nomicfoundation/hardhat-toolbox";
+import "@nomicfoundation/hardhat-ignition-ethers";
+import "@nomicfoundation/hardhat-verify";
+import 'dotenv/config'
 
-export default {
+const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       allowUnlimitedContractSize: false,
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     },
     ropsten: {
       url: `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`,
@@ -42,13 +44,16 @@ export default {
       url: `https://polygon-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
     bnb: {
-      url: `https://bsc-dataseed.binance.org/`,
+      url: 'https://bsc-dataseed.binance.org/',
     },
   },
   etherscan: {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
     apiKey: process.env.ETHERSCAN_API_KEY,
+  },
+  sourcify: {
+    enabled: true
   },
   solidity: {
     version: '0.7.6',
@@ -65,4 +70,6 @@ export default {
       },
     },
   },
-}
+};
+
+export default config;
