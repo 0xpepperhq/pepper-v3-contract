@@ -64,3 +64,29 @@ The primary license for Pepper V1 Core is the Business Source License 1.1 (`BUSL
 
 - `contracts/libraries/FullMath.sol` is licensed under `MIT` (as indicated in its SPDX header), see [`contracts/libraries/LICENSE_MIT`](contracts/libraries/LICENSE_MIT)
 - All files in `contracts/test` remain unlicensed (as indicated in their SPDX headers).
+
+## Useful commands
+
+### Install dependencies
+
+```bash
+yarn install
+```
+
+### Compile contracts
+
+```bash
+yarn compile
+```
+
+### Deploy contracts
+
+```bash
+npx hardhat ignition deploy ./ignition/modules/PepperV3Factory.ts --network localhost 
+```
+
+### Verify contracts
+
+```bash
+npx hardhat verify --network mainnet 0x967171E6867cdC00F551080544fAd6b3575beE22 
+```
