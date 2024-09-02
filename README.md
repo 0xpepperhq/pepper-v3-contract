@@ -4,7 +4,7 @@
 [![Tests](https://github.com/0xpepperhq/pepper-v3-core/actions/workflows/tests.yml/badge.svg)](https://github.com/0xpepperhq/pepper-v3-core/actions/workflows/tests.yml)
 [![Fuzz Testing](https://github.com/0xpepperhq/pepper-v3-core/actions/workflows/fuzz-testing.yml/badge.svg)](https://github.com/0xpepperhq/pepper-v3-core/actions/workflows/fuzz-testing.yml)
 [![Mythx](https://github.com/0xpepperhq/pepper-v3-core/actions/workflows/mythx.yml/badge.svg)](https://github.com/0xpepperhq/pepper-v3-core/actions/workflows/mythx.yml)
-# [![npm version](https://img.shields.io/npm/v/@pepper/v3-core/latest.svg)](https://www.npmjs.com/package/@pepper/v3-core/v/latest)
+[![npm version](https://img.shields.io/npm/v/@pepper/v3-core/latest.svg)](https://www.npmjs.com/package/@pepper/v3-core/v/latest)
 
 This repository contains the core smart contracts for the Pepper V3 Protocol.
 For higher level contracts, see the [pepper-v3-periphery](https://github.com/Pepper/pepper-v3-periphery)
