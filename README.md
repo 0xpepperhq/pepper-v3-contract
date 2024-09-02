@@ -1,4 +1,4 @@
-# Pepper V1
+# Pepper V3
 
 [![Lint](https://github.com/Pepper/pepper-v3-core/actions/workflows/lint.yml/badge.svg)](https://github.com/Pepper/pepper-v3-core/actions/workflows/lint.yml)
 [![Tests](https://github.com/Pepper/pepper-v3-core/actions/workflows/tests.yml/badge.svg)](https://github.com/Pepper/pepper-v3-core/actions/workflows/tests.yml)
@@ -6,13 +6,13 @@
 [![Mythx](https://github.com/Pepper/pepper-v3-core/actions/workflows/mythx.yml/badge.svg)](https://github.com/Pepper/pepper-v3-core/actions/workflows/mythx.yml)
 [![npm version](https://img.shields.io/npm/v/@pepper/v3-core/latest.svg)](https://www.npmjs.com/package/@pepper/v3-core/v/latest)
 
-This repository contains the core smart contracts for the Pepper V1 Protocol.
+This repository contains the core smart contracts for the Pepper V3 Protocol.
 For higher level contracts, see the [pepper-v3-periphery](https://github.com/Pepper/pepper-v3-periphery)
 repository.
 
 ## Bug bounty
 
-This repository is subject to the Pepper V1 bug bounty program, per the terms defined [here](./bug-bounty.md).
+This repository is subject to the Pepper V3 bug bounty program, per the terms defined [here](./bug-bounty.md).
 
 ## Local deployment
 
