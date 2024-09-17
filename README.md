@@ -88,5 +88,5 @@ npx hardhat ignition deploy ./ignition/modules/PepperV3Factory.ts --network loca
 ### Verify contracts
 
 ```bash
-npx hardhat verify --network mainnet 0x967171E6867cdC00F551080544fAd6b3575beE22 
+npx hardhat verify --network mainnet 0xe5d3CdB374EC5CEde0F98BAB2660bd78Df7B9ECb 
 ```
